@@ -3,11 +3,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import org.junit.jupiter.api.function.Executable;
 import tqsua.lab1stack.ITqsStack;
+
+import java.util.NoSuchElementException;
 
 public class ITqsStackTest {
 
@@ -51,8 +53,7 @@ public class ITqsStackTest {
         System.out.println("======TEST THREE EXECUTED=======");
 
         int expected_final_size = 100;
-        for(int i = 0; i < expected_final_size; i++)
-            this.test_stack.push(i);
+        this.pushN(expected_final_size);
 
         Assertions.assertEquals( false, this.test_stack.isEmpty());
         Assertions.assertEquals( expected_final_size, this.test_stack.size());
@@ -66,7 +67,59 @@ public class ITqsStackTest {
 
         int x = (int)(Math.random()*10000);
         this.test_stack.push(x);
-        Assertions.assertEquals( x, this.test_stack.pop());
+        Assertions.assertEquals(x, this.test_stack.pop());
+    }
+
+    @Test
+    void testPushThenPeek() {
+        System.out.println("======TEST FIVE EXECUTED======");
+
+        int x = (int)(Math.random()*10000);
+        this.test_stack.push(x);
+        Assertions.assertEquals(x, this.test_stack.peek());
+    }
+
+    @Test
+    void testPushNPopN() {
+        System.out.println("======TEST SIX EXECUTED======");
+
+        int n = 100;
+        this.test_stack.clear();
+
+        this.pushN(n);
+        this.popN(n);
+
+        Assertions.assertEquals(true, this.test_stack.isEmpty());
+        Assertions.assertEquals(0, this.test_stack.size());
+    }
+
+    @Test
+    void testPopEmpty() {
+        System.out.println("======TEST SIX EXECUTED======");
+
+        this.test_stack.clear();
+        Assertions.assertThrows(NoSuchElementException.class, () -> ITqsStackTest.this.test_stack.pop());
+    }
+
+    @Test
+    void testPeekEmpty() {
+        System.out.println("======TEST SEVEN EXECUTED======");
+
+        this.test_stack.clear();
+        Assertions.assertThrows(NoSuchElementException.class, () -> ITqsStackTest.this.test_stack.peek());
+    }
+
+    @Test
+    void testFullBoundedStack() {
+        System.out.println("======TEST EIGHT EXECUTED======");
+
+        int max_size = 100;
+        this.test_stack.clear();
+        this.test_stack.defineMaxSize(max_size);
+
+        for (int i = 0; i < max_size; i++)
+            this.test_stack.push(i);
+        Assertions.assertThrows(IllegalStateException.class, () -> ITqsStackTest.this.test_stack.push(0));
     }
 
     @AfterEach
@@ -77,5 +130,15 @@ public class ITqsStackTest {
     @AfterAll
     static void tear(){
         System.out.println("@AfterAll executed");
+    }
+
+    private void pushN(int n) {
+        for(int i = 0; i < n; i++)
+            this.test_stack.push(i);
+    }
+
+    private void popN(int n) {
+        for(int i = 0; i < n; i++)
+            this.test_stack.pop();
     }
 }
