@@ -18,7 +18,6 @@ public class SetOfNaturals implements Iterable<Integer> {
 		}
 
 		collection.add(element);
-
 	}
 
 	public void add(int[] numbers) {
