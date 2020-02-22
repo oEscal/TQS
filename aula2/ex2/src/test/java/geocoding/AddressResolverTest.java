@@ -2,8 +2,10 @@ package geocoding;
 
 import org.apache.http.client.utils.URIBuilder;
 import org.json.simple.parser.ParseException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -15,6 +17,7 @@ import java.util.Locale;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -63,8 +66,24 @@ class AddressResolverTest {
         assertThat(returned_address, is(expected_address));
     }
 
-    void testValidCoordinates() {
+    @Test
+    void testValidCoordinates() throws URISyntaxException, IOException, ParseException {
 
+        when(tqsHttpClient.get(createLinkString(10, 10))).thenReturn("{\n" +
+                "    \"results\": [\n" +
+                "        {\n" +
+                "            \"providedLocation\": {\n" +
+                "                \"latLng\": {\n" +
+                "                    \"lat\": 10,\n" +
+                "                    \"lng\": 10\n" +
+                "                }\n" +
+                "            },\n" +
+                "            \"locations\": []\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}");
+
+        Assertions.assertThrows(NoSuchFieldError.class, () -> addressResolver.findAddressForLocation(10, 10));
     }
 
     private static String createLinkString(double lat, double lnt) throws URISyntaxException {
