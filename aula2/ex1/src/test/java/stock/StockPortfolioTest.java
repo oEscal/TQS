@@ -21,21 +21,20 @@ class StockPortfolioTest {
     private StockPortfolio portfolio;         // SuT
 
     @Mock
-    private ITStockMarket market;
+    private ITStockMarket itStockMarket;
 
     @Test
     void test1() {
         portfolio.setMarket_service(market);
 
         // isto é dizer ao mock como se deve comportar
-        when(market.getPrice("EBAY")).thenReturn(6.0);
-        when(market.getPrice("MSFT")).thenReturn(7.0);
+        when(itStockMarket.getPrice("EBAY")).thenReturn(6.0);
+        when(itStockMarket.getPrice("MSFT")).thenReturn(7.0);
 
         portfolio.addStock(new Stock("EBAY", 2));
         portfolio.addStock(new Stock("MSFT", 4));
 
         double result = portfolio.getTotalValue();
-
 
         assertThat(result, equalTo(13.0));
     }

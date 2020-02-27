@@ -7,7 +7,7 @@ public class StockPortfolio {
 
     private String name;
     private List<Stock> stocks;
-    private ITStockMarket market_service;
+    private ITStockMarket itStockMarket;
 
     public StockPortfolio(String name) {
         this.name = name;
@@ -15,11 +15,11 @@ public class StockPortfolio {
     }
 
     public ITStockMarket getMarket_service() {
-        return market_service;
+        return itStockMarket;
     }
 
     public void setMarket_service(ITStockMarket market_service) {
-        this.market_service = market_service;
+        this.itStockMarket = market_service;
     }
 
     public String getName() {
@@ -33,7 +33,7 @@ public class StockPortfolio {
     public double getTotalValue() {
         double total = 0;
         for (int i = 0; i < this.stocks.size(); i++)
-            total += this.market_service.getPrice(this.stocks.get(i).getName());
+            total += this.itStockMarket.getPrice(this.stocks.get(i).getName());
         return total;
     }
 
