@@ -30,6 +30,11 @@ public class StepDefinitions {
         today = "Friday";
     }
 
+    @Given("today is {string}")
+    public void todayIs(String arg) {
+        today = arg;
+    }
+
     @When("I ask whether it's Friday yet")
     public void i_ask_whether_it_s_Friday_yet() {
         answer = Ask.is_it_friday_question_mark(today);
