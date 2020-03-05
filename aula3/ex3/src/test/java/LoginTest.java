@@ -15,7 +15,7 @@ public class LoginTest {
     private Map<String, Object> vars;
     JavascriptExecutor js;
 
-    private SeleniumConfig config = ;
+    private SeleniumConfig config;
 
     @FindBy(linkText = "Sign in")
     private WebElement sign_in_text;
