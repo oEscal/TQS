@@ -2,17 +2,20 @@
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.support.FindBy;
+
 import java.util.*;
 
 public class Test1Test {
   private WebDriver driver;
   private Map<String, Object> vars;
   JavascriptExecutor js;
+
+
+  @FindBy(linkText = "Sign in")
+  private WebElement sign_in_text;
 
   @BeforeEach
   public void setUp() {
