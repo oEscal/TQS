@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SetOfNaturalsTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">euromillions_play$SetOfNaturalsTest.exec</a> &gt; <a href="index.source.html" class="el_package">sets</a> &gt; <span class="el_source">SetOfNaturalsTest.java</span></div><h1>SetOfNaturalsTest.java</h1><pre class="source lang-java linenums">/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package sets;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.*;
+
+import java.util.Random;
+
+/**
+ * @author ico0
+ */
+<span class="fc" id="L16">public class SetOfNaturalsTest {</span>
+    private SetOfNaturals setA;
+    private SetOfNaturals setB;
+    private SetOfNaturals setC;
+    private SetOfNaturals setD;
+
+    /****** TESTS ******/
+    /*
+      * Verify if when we add a new element, verify if the size is what is expected
+        and if the elements added are on the set
+      * Test if the sets does throw a error when added a negative number
+      * Verify if two sets with no common elements have no intersection
+      * Test if it is possible to add the same number multiple times (and if a error is thrown)
+      * Test if the set contains a number that wasn't added
+      * Test if two sets with the same added numbers are equal to each other
+      * Test if two sets with different added numbers are, in fact, different
+    */
+
+
+    @BeforeEach
+    public void setUp() {
+<span class="fc" id="L37">        setA = new SetOfNaturals();</span>
+<span class="fc" id="L38">        setB = SetOfNaturals.fromArray(new int[]{10, 20, 30, 40, 50, 60});</span>
+
+<span class="fc" id="L40">        setC = new SetOfNaturals();</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        for (int i = 5; i &lt; 50; i++) {</span>
+<span class="fc" id="L42">            setC.add(i * 10);</span>
+        }
+<span class="fc" id="L44">        setD = SetOfNaturals.fromArray(new int[]{30, 40, 50, 60, 10, 20});</span>
+<span class="fc" id="L45">    }</span>
+
+    @AfterEach
+    public void tearDown() {
+<span class="fc" id="L49">        setA = setB = setC = setD = null;</span>
+<span class="fc" id="L50">    }</span>
+
+    @Test
+    public void testAddElement() {
+
+<span class="fc" id="L55">        setA.add(99);</span>
+<span class="fc" id="L56">        assertTrue(setA.contains(99), &quot;add: added element not found in set.&quot;);</span>
+<span class="fc" id="L57">        assertEquals(1, setA.size());</span>
+
+<span class="fc" id="L59">        setB.add(11);</span>
+<span class="fc" id="L60">        assertTrue(setB.contains(11), &quot;add: added element not found in set.&quot;);</span>
+<span class="fc" id="L61">        assertEquals(7, setB.size(), &quot;add: elements count not as expected.&quot;);</span>
+<span class="fc" id="L62">    }</span>
+
+    @Test
+    public void testAddBadArray() {
+<span class="fc" id="L66">        int[] elems = new int[]{10, 20, -30};</span>
+
+        // must fail with exception
+<span class="pc" id="L69">        assertThrows(IllegalArgumentException.class, () -&gt; setA.add(elems));</span>
+<span class="fc" id="L70">    }</span>
+
+
+    @Test
+    public void testIntersectForNoIntersection() {
+<span class="fc" id="L75">        assertFalse(setA.intersects(setB), &quot;no intersection but was reported as existing&quot;);</span>
+<span class="fc" id="L76">    }</span>
+
+    @Test
+    public void testAddSameMultiple() {
+<span class="fc" id="L80">        int n = (new Random()).nextInt(10000);</span>
+<span class="fc" id="L81">        setA.add(n);</span>
+<span class="pc" id="L82">        assertThrows(IllegalArgumentException.class, () -&gt; setA.add(n), &quot;Number &quot; + n + &quot;added multiple times&quot;);</span>
+<span class="fc" id="L83">    }</span>
+
+    @Test
+    public void testSetContainsNumberNotAdded() {
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        for (int i = 0; i &lt; 1000; i++)</span>
+<span class="fc" id="L88">            assertFalse(setA.contains(i), &quot;Set A contains number &quot; + i + &quot;but this wasn't added&quot;);</span>
+<span class="fc" id="L89">    }</span>
+
+    @Test
+    public void testEqualSets() {
+<span class="fc" id="L93">        int max_numbers = 100;</span>
+
+<span class="fc" id="L95">        setB = new SetOfNaturals();</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        for (int i = 1; i &lt; max_numbers; i++) {</span>
+<span class="fc" id="L97">            setA.add(i);</span>
+<span class="fc" id="L98">            setB.add(i);</span>
+        }
+
+<span class="fc" id="L101">        assertEquals(setA, setB, &quot;setA and setB had the same numbers added, but are not equal&quot;);</span>
+<span class="fc" id="L102">    }</span>
+
+    @Test
+    public void testDifferentSets() {
+<span class="fc" id="L106">        assertNotEquals(setB, setD, &quot;setB and setD are different, but equals() method returned true&quot;);</span>
+<span class="fc" id="L107">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
