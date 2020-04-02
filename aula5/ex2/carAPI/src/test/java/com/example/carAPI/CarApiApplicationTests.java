@@ -42,7 +42,7 @@ class CarApiApplicationTests {
 		ResponseEntity<Car> entity = rest_client.getForEntity("/cars/prius", Car.class);
 
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(entity.getBody().getName()).isEqualTo("prius");
+		assertThat(entity.getBody().getName()).isEqualTo("adeus");
 	}
 
 }
